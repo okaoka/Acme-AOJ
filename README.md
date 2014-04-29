@@ -44,8 +44,7 @@ Installation
 
  * Example
 
-    ---
-
+    ---  
     "lang": 'C++'  
     "password": 'hogehogefugafuga'  
     "tabwidth": 8  
