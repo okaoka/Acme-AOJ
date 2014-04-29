@@ -4,43 +4,46 @@ aoj The Simple AOJ Submitter
 Installation
 ------------
 
-Clone this repository
-      $ git clone https://github.com/okaoka/Acme-AOJ
+* Clone this repository
+    $ git clone https://github.com/okaoka/Acme-AOJ
 
-Install CPAN modules
-	$ cpanm WebService::Simple
-	$ cpanm Config::Pit
-	...
+* Install CPAN modules
+    $ cpanm WebService::Simple
+    $ cpanm Config::Pit
+    $ cpanm YAML
+    ...
 
-Copy aoj file to the bin directory
+* Copy aoj file to the bin directory
     $ mkdir -p $HOME/.aoj/bin
     $ cp -p aoj $HOME/.aoj/bin
 
-Open your .bashrc and edit $PATH like this 
-     export PATH=$HOME/.aoj/bin:$PATH
+* Open your .bashrc and edit $PATH like this 
+    export PATH=$HOME/.aoj/bin:$PATH
 
-Add EDITOR variable
-     export EDITOR=emacs
+* Then add EDITOR variable
+    export EDITOR=emacs
 
-Update your .bashrc
-       $ source ~/.bashrc
+* Update your .bashrc
+    $ source ~/.bashrc
 
-Tell your Account to the Config::Pit
+* Tell your Account to the Config::Pit
     $ ppit set aoj
 
-Then edit following variables
--tabwidth ... being used when tab is converted into space
--user ... set your user id
--password ... set your password
--lang ... set your defalut languages
-     ---
-     "lang": 'C++'
-     "password": 'hogehogefugafuga'
-     "tabwidth": 8
-     "user": 'hogehoge'
+* Then edit following variables
+ * tabwidth ... being used when tab is converted into space
+ * user ... set your user id
+ * password ... set your password
+ * lang ... set your defalut languages
+
+ * Example
+    ---
+    "lang": 'C++'
+    "password": 'hogehogefugafuga'
+    "tabwidth": 8
+    "user": 'hogehoge'
 
 Usage
 -----
 
 See
-	$ aoj --help
+    $ aoj --help
