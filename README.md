@@ -37,14 +37,14 @@ Installation
     $ ppit set aoj
 
 * Then edit following variables
- * tabwidth ... being used when tab is converted into space
+ * tabwidth ... being used when tab is converted into white space
  * user ... set your user id
  * password ... set your password
  * lang ... set your defalut languages
 
  * Example
 
-    ---  
+    \-\-\-  
     "lang": 'C++'  
     "password": 'hogehogefugafuga'  
     "tabwidth": 8  
