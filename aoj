@@ -21,7 +21,7 @@ my $config = pit_get("aoj");
 my $dir = $opts{code} || $ARGV[0] || "";
 (-f $dir) or die "Error: Couldn't find your code.";
 my $code = read_file($dir);
-my $tabwidth = $config->{tabwidth} || $opts{tabwidth} || 4;
+my $tabwidth = $opts{tabwidth} || $config->{tabwidth} || 4;
 my $tab2space = sprintf(" " x $tabwidth);
 $code =~ s/\t/$tab2space/g;
 
@@ -32,7 +32,9 @@ my $password = $opts{password} || $config->{password} || "";
 my $user = $opts{user} || $config->{user} || "";
 
 #problem no
-my $id = $opts{id} || "";
+exists($opts{id}) or die "Input problem NO.";
+my $id = $opts{id};
+$id = sprintf("%04d",$id);
 
 #lang
 my $lang = $opts{lang} || $config->{lang};
@@ -41,15 +43,24 @@ my $aoj = WebService::Simple->new(
     base_url => "http://judge.u-aizu.ac.jp/",
     );
 
-my $response = $aoj->post('onlinejudge/servlet/Submit',{userID => $user,
+my $post_response = $aoj->post('onlinejudge/servlet/Submit',{userID => $user,
 							password => $password,
 							problemNO => $id,
 							language => $lang,
 							sourceCode => $code});
 
-$response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
+if($post_response->{_content} =~ /wrong/i){
+    $post_response->{_content} =~ s/\n//g;
+    $post_response->{_content} =~ s/<.+?>//g;
+    print $post_response->{_content},"\n";
+    die;
+}
 
-my $xml = $response->parse_response();
+
+sleep(2);
+my $get_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
+
+my $xml = $get_response->parse_response();
 
 print $xml->{status}[0]->{status};
 
