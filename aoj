@@ -9,6 +9,7 @@ use Getopt::Long;
 use File::Slurp;
 use Config::Pit;
 use Pod::Usage;
+use HTTP::Date;
 
 our %opts;
 GetOptions(\%opts,'code=s','password=s','id=i','user=s','tabwidth=i','lang=s','help!') or pod2usage(2);
@@ -56,13 +57,23 @@ if($post_response->{_content} =~ /wrong/i){
     die;
 }
 
+my $isok = 0;
+my $xml;
+for(my $round = 0; $round < 40; $round++){
+    sleep(1);
+    my $status_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
+    
+    $xml = $status_response->parse_response();
+    
+    my $latest_date = str2time($post_response->{_headers}->{date});
+    $latest_date = $latest_date . sprintf("0" x (13-length($latest_date)));
+    if($xml->{status}[0]->{submission_date} >= $latest_date){
+	$isok = 1;
+	last;
+    }
+}
 
-sleep(2);
-my $get_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
-
-my $xml = $get_response->parse_response();
-
-print $xml->{status}[0]->{status};
+print STDERR ($isok ? $xml->{status}[0]->{status} : "Error: Connection Timeout\.n");
 
 __END__
 
