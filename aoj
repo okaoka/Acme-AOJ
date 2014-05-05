@@ -60,7 +60,7 @@ if($post_response->{_content} =~ /wrong/i){
 my $isok = 0;
 my $xml;
 for(my $round = 0; $round < 40; $round++){
-    sleep(1);
+    sleep(3);
     my $status_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
     
     $xml = $status_response->parse_response();
