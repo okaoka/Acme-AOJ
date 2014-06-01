@@ -10,31 +10,43 @@ Installation
 
 * Install CPAN modules
 
+```
     $ cpanm WebService::Simple  
     $ cpanm Config::Pit  
     $ cpanm YAML  
     ...  
+```
 
 * Copy aoj file to the bin directory
 
+```
     $ mkdir -p $HOME/.aoj/bin  
     $ cp -p aoj $HOME/.aoj/bin  
+```
 
 * Open your .bashrc and edit $PATH like this 
 
+```
     export PATH=$HOME/.aoj/bin:$PATH
 
+```
 * Then add EDITOR variable
 
+```
     export EDITOR=emacs
+```
 
 * Update your .bashrc
 
+```
     $ source ~/.bashrc
+```
 
 * Tell your Account to the Config::Pit
 
+```
     $ ppit set aoj
+```
 
 * Then edit following variables
  * tabwidth ... being used when tab is converted into white space
@@ -44,11 +56,13 @@ Installation
 
  * Example
 
-    \-\-\-  
+```
+    --- 
     "lang": 'C++'  
     "password": 'hogehogefugafuga'  
     "tabwidth": 8  
     "user": 'hogehoge'  
+```
 
 Usage
 -----
