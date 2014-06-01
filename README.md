@@ -6,7 +6,9 @@ Installation
 
 * Clone this repository
 
+```
     $ git clone https://github.com/okaoka/Acme-AOJ
+```
 
 * Install CPAN modules
 
