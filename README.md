@@ -10,9 +10,16 @@ Installation
     $ git clone https://github.com/okaoka/Acme-AOJ
 ```
 
+* Install expat
+```
+    $ sudo apt-get install expat
+    $ sudo apt-get install libexpat1-dev
+```
+
 * Install CPAN modules
 
 ```
+    $ cpanm File::Slurp
     $ cpanm WebService::Simple  
     $ cpanm Config::Pit  
     $ cpanm YAML  
