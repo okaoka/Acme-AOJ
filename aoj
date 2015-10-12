@@ -111,11 +111,17 @@ aoj - The Simple AOJ Submitter
 
 =head1 SYNOPSIS
 
+Use:
        aoj [options] file
 
-       Options:
+Options:
 	-h, --help				show this help message and exit
 	-u USERID --user=USERID			set your user_id
 	-p PASSWORD --password=PASSWORD		set your password
-	-l LANGUAGE --lang=LANGUAGE		set your language
+	-la LANGUAGE --lang=LANGUAGE		set your language
 	-i PROBLEM_ID --id=PROBLEM_ID		set your problem_id
+	-le LESSON --lesson=LESSON_ID		set your lesson_id
+
+Examples:
+	aoj -i 0000 0000_QQ.cpp
+	aoj -i A --lang Scala --lesson ITP1_1 ITP1_1_A.scala
