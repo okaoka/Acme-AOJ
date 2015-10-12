@@ -122,7 +122,7 @@ Options:
 	-p PASSWORD --password=PASSWORD		set your password
 	-la LANGUAGE --lang=LANGUAGE		set your language
 	-i PROBLEM_ID --id=PROBLEM_ID		set your problem_id
-	-le LESSON --lesson=LESSON_ID		set your lesson_id
+	-le LESSON_ID --lesson=LESSON_ID	set your lesson_id
 
 Examples:
 
