@@ -12,7 +12,7 @@ use Pod::Usage;
 use HTTP::Date;
 
 our %opts;
-GetOptions(\%opts,'code=s','password=s','id=i','user=s','tabwidth=i','lang=s','help!') or pod2usage(2);
+GetOptions(\%opts,'code=s','password=s','id=s','user=s','lesson=s','tabwidth=i','lang=s','help!') or pod2usage(2);
 pod2usage(1) if($opts{help});
 
 my $config = pit_get("aoj");
@@ -35,7 +35,10 @@ my $user = $opts{user} || $config->{user} || "";
 #problem no
 exists($opts{id}) or die "Input problem NO.";
 my $id = $opts{id};
-$id = sprintf("%04d",$id);
+#$id = sprintf("%04d",$id);
+
+#lesson
+my $lesson_id = $opts{lesson} || "";
 
 #lang
 my $lang = $opts{lang} || $config->{lang};
@@ -44,11 +47,12 @@ my $aoj = WebService::Simple->new(
     base_url => "http://judge.u-aizu.ac.jp/",
     );
 
-my $post_response = $aoj->post('onlinejudge/servlet/Submit',{userID => $user,
-							password => $password,
-							problemNO => $id,
-							language => $lang,
-							sourceCode => $code});
+my $post_response = $aoj->post('onlinejudge/webservice/submit',{userID => $user,
+							     password => $password,
+							     problemNO => $id,
+							     lessonID => $lesson_id,
+							     language => $lang,
+							     sourceCode => $code});
 
 if($post_response->{_content} =~ /wrong/i){
     $post_response->{_content} =~ s/\n//g;
@@ -59,21 +63,45 @@ if($post_response->{_content} =~ /wrong/i){
 
 my $isok = 0;
 my $xml;
+my $status = "";
+my @status_list = ("CompileError",
+		   "WrongAnswer",
+		   "TimeLimitExceeded",
+		   "MemoryLimitExceeded",
+		   "Accepted",
+		   "OutputLimitExceeded",
+		   "RuntimeError",
+		   "PresentationError");
+
 for(my $round = 0; $round < 40; $round++){
     sleep(3);
-    my $status_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});
-    
+    my $status_response;
+    if(!defined($lesson_id) || $lesson_id eq ""){
+	$status_response = $aoj->get('onlinejudge/webservice/status_log',{user_id=>$user});	
+    }
+    else{
+	$status_response = $aoj->get('onlinejudge/webservice/lesson_submission_log',{user_id=>$user,lesson_id=>$lesson_id});
+    }
+
     $xml = $status_response->parse_response();
     
     my $latest_date = str2time($post_response->{_headers}->{date});
     $latest_date = $latest_date . sprintf("0" x (13-length($latest_date)));
     if($xml->{status}[0]->{submission_date} >= $latest_date){
+
+	if(!defined($lesson_id) || $lesson_id eq ""){
+	    $status = $xml->{status}[0]->{status};
+	}
+	else{
+	    $status = $status_list[$xml->{status}[0]->{status_code}] . "\n";
+	}
+
 	$isok = 1;
 	last;
     }
 }
 
-print STDERR ($isok ? $xml->{status}[0]->{status} : "Error: Connection Timeout\.n");
+print STDERR ($isok ? $status : "Error: Connection Timeout\.n");
 
 __END__
 
