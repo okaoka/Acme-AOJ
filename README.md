@@ -1,4 +1,4 @@
-aoj -- The Simple AOJ Submitter
+aoj -- A Simple AOJ Submitter
 ============================
 
 Installation
